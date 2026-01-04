@@ -1,0 +1,93 @@
+# =============================================================================
+# .gitignore für Gematik TI PowerShell Testskripte
+# =============================================================================
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Sensible Daten / Konfiguration
+# ─────────────────────────────────────────────────────────────────────────────
+
+# Konfigurationsdateien mit Zugangsdaten
+*.config.ps1
+*-config.ps1
+config.json
+secrets.json
+credentials.json
+
+# Zertifikate und Schlüssel
+*.pem
+*.key
+*.p12
+*.pfx
+*.cer
+*.crt
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Export-Dateien
+# ─────────────────────────────────────────────────────────────────────────────
+
+# JSON Exports
+erezepte_export_*.json
+epa_export_*.json
+*_export_*.json
+
+# Log-Dateien
+*.log
+logs/
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Bibliotheken (werden lokal installiert)
+# ─────────────────────────────────────────────────────────────────────────────
+
+# NuGet executable
+lib/nuget.exe
+
+# NuGet Pakete (können über nuget restore installiert werden)
+# Hinweis: Für einfachere Installation werden die Pakete NICHT ignoriert
+# lib/PeterO.Cbor.*/
+# lib/PeterO.Numbers.*/
+# lib/PeterO.URIUtility.*/
+# lib/BouncyCastle.Cryptography.*/
+
+# ─────────────────────────────────────────────────────────────────────────────
+# IDE / Editor
+# ─────────────────────────────────────────────────────────────────────────────
+
+# Visual Studio Code
+.vscode/
+*.code-workspace
+
+# Visual Studio
+.vs/
+*.suo
+*.user
+
+# JetBrains
+.idea/
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Windows
+# ─────────────────────────────────────────────────────────────────────────────
+
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# ─────────────────────────────────────────────────────────────────────────────
+# macOS
+# ─────────────────────────────────────────────────────────────────────────────
+
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Temporäre Dateien
+# ─────────────────────────────────────────────────────────────────────────────
+
+*.tmp
+*.temp
+*.bak
+*.swp
+*~
