@@ -1,0 +1,41 @@
+{
+  "$schema": "./config.schema.json",
+  "_comment": "Konfiguration fuer RISE Testumgebung (Referenzumgebung RU) mit Gematik Testsuite",
+  
+  "Umgebung": "RU",
+  
+  "EPA": {
+    "_comment": "RISE (IBM) ePA Aktensystem - Referenzumgebung",
+    "AktensystemBaseUrl": "https://kon-instanz1.titus.ti-dienste.de"
+  },
+  
+  "ERezept": {
+    "_comment": "Gematik E-Rezept Fachdienst - Referenzumgebung",
+    "FdBaseUrl": "https://erp-ref.zentral.erp.splitdns.ti-dienste.de",
+    "IdpBaseUrl": "https://idp-ref.zentral.idp.splitdns.ti-dienste.de"
+  },
+  
+  "Authentifizierung": {
+    "_comment": "Authentifizierung ueber Gematik Testsuite / zentralen IDP",
+    "Methode": "GesundheitsID",
+    
+    "_comment_ClientId": "Client-ID aus der Gematik Testsuite - MUSS registriert werden",
+    "OidcClientId": "gematikTestsuite",
+    
+    "OidcRedirectUri": "http://localhost:8080/callback",
+    
+    "_comment_IdpDiscovery": "Sektoraler IDP Discovery URL - Testsuite verwendet zentralen IDP",
+    "SektoralerIdpDiscoveryUrl": "https://idp-ref.zentral.idp.splitdns.ti-dienste.de/.well-known/openid-configuration"
+  },
+  
+  "Versicherter": {
+    "_comment": "Test-KVNR aus der Gematik Testsuite",
+    "_hinweis": "Verwenden Sie eine Test-KVNR aus Ihrer Testsuite-Konfiguration",
+    "KVNR": "X110411675"
+  },
+  
+  "Optionen": {
+    "VerboseLogging": true,
+    "HttpTimeoutSeconds": 60
+  }
+}
