@@ -1,0 +1,78 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "C#: ePA Test (RISE RU)",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/src/GematikTI/bin/Debug/net8.0/GematikTI.dll",
+            "args": ["epa", "-c", "${workspaceFolder}/src/GematikTI/config.rise-ru.json"],
+            "cwd": "${workspaceFolder}/src/GematikTI",
+            "console": "integratedTerminal",
+            "stopAtEntry": false
+        },
+        {
+            "name": "C#: E-Rezept Test (RISE RU)",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/src/GematikTI/bin/Debug/net8.0/GematikTI.dll",
+            "args": ["erezept", "-c", "${workspaceFolder}/src/GematikTI/config.rise-ru.json"],
+            "cwd": "${workspaceFolder}/src/GematikTI",
+            "console": "integratedTerminal",
+            "stopAtEntry": false
+        },
+        {
+            "name": "C#: ePA Test (Custom Config)",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/src/GematikTI/bin/Debug/net8.0/GematikTI.dll",
+            "args": ["epa", "-c", "${input:configFile}"],
+            "cwd": "${workspaceFolder}/src/GematikTI",
+            "console": "integratedTerminal",
+            "stopAtEntry": false
+        },
+        {
+            "name": "C#: E-Rezept Test (Custom Config)",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/src/GematikTI/bin/Debug/net8.0/GematikTI.dll",
+            "args": ["erezept", "-c", "${input:configFile}"],
+            "cwd": "${workspaceFolder}/src/GematikTI",
+            "console": "integratedTerminal",
+            "stopAtEntry": false
+        },
+        {
+            "name": "PowerShell: ePA Test",
+            "type": "PowerShell",
+            "request": "launch",
+            "script": "${workspaceFolder}/epa_test.ps1",
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "name": "PowerShell: E-Rezept Test",
+            "type": "PowerShell",
+            "request": "launch",
+            "script": "${workspaceFolder}/eRezept_test.ps1",
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "name": "PowerShell: Mit RISE Config laden",
+            "type": "PowerShell",
+            "request": "launch",
+            "script": "${workspaceFolder}/config.rise-ru.ps1",
+            "cwd": "${workspaceFolder}"
+        }
+    ],
+    "inputs": [
+        {
+            "id": "configFile",
+            "type": "promptString",
+            "description": "Pfad zur Konfigurationsdatei (JSON)",
+            "default": "${workspaceFolder}/src/GematikTI/config.rise-ru.json"
+        }
+    ]
+}

@@ -1,0 +1,91 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/src/GematikTI/GematikTI.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary;ForceNoAlign"
+            ],
+            "problemMatcher": "$msCompile",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "publish",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "publish",
+                "${workspaceFolder}/src/GematikTI/GematikTI.csproj",
+                "-c", "Release",
+                "-o", "${workspaceFolder}/publish"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "clean",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "clean",
+                "${workspaceFolder}/src/GematikTI/GematikTI.csproj"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "restore",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "restore",
+                "${workspaceFolder}/src/GematikTI/GematikTI.csproj"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "run-epa",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "run",
+                "--project", "${workspaceFolder}/src/GematikTI/GematikTI.csproj",
+                "--",
+                "epa",
+                "-c", "${workspaceFolder}/src/GematikTI/config.rise-ru.json"
+            ],
+            "problemMatcher": "$msCompile",
+            "group": "test"
+        },
+        {
+            "label": "run-erezept",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "run",
+                "--project", "${workspaceFolder}/src/GematikTI/GematikTI.csproj",
+                "--",
+                "erezept",
+                "-c", "${workspaceFolder}/src/GematikTI/config.rise-ru.json"
+            ],
+            "problemMatcher": "$msCompile",
+            "group": "test"
+        },
+        {
+            "label": "install-nuget-libs",
+            "type": "shell",
+            "command": "cd ${workspaceFolder}/lib; .\\nuget.exe install PeterO.Cbor -Version 4.5.3 -OutputDirectory .; .\\nuget.exe install BouncyCastle.Cryptography -Version 2.4.0 -OutputDirectory .",
+            "windows": {
+                "command": "cd ${workspaceFolder}\\lib; .\\nuget.exe install PeterO.Cbor -Version 4.5.3 -OutputDirectory .; .\\nuget.exe install BouncyCastle.Cryptography -Version 2.4.0 -OutputDirectory ."
+            },
+            "problemMatcher": [],
+            "group": "none"
+        }
+    ]
+}

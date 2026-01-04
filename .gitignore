@@ -52,8 +52,8 @@ lib/nuget.exe
 # IDE / Editor
 # ─────────────────────────────────────────────────────────────────────────────
 
-# Visual Studio Code
-.vscode/
+# Visual Studio Code (launch.json, tasks.json werden eingecheckt)
+# .vscode/
 *.code-workspace
 
 # Visual Studio
