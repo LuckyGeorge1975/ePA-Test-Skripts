@@ -1,18 +1,23 @@
-# 🏥 Gematik TI PowerShell Testskripte
+# 🏥 Gematik TI Test-Tools
 
-PowerShell-Skripte zum Testen der Verbindung zu Gematik Telematikinfrastruktur (TI) Diensten:
+Tools zum Testen der Verbindung zu Gematik Telematikinfrastruktur (TI) Diensten:
 - **ePA 3.x** (elektronische Patientenakte "ePA für alle")
 - **E-Rezept** (elektronisches Rezept)
 
-> ⚠️ **HINWEIS**: Diese Skripte dienen Testzwecken und der Entwicklung. Für den produktiven Einsatz sind weitere Sicherheitsmaßnahmen erforderlich.
+Verfügbar als:
+- **PowerShell-Skripte** - Standalone-Skripte ohne Kompilierung
+- **C# Konsolen-Anwendung** - Plattformübergreifende .NET 8.0 Anwendung
+
+> ⚠️ **HINWEIS**: Diese Tools dienen Testzwecken und der Entwicklung. Für den produktiven Einsatz sind weitere Sicherheitsmaßnahmen erforderlich.
 
 ## 📋 Inhaltsverzeichnis
 
 - [Voraussetzungen](#voraussetzungen)
 - [Installation](#installation)
-- [Skripte](#skripte)
+- [PowerShell-Skripte](#powershell-skripte)
   - [ePA Testskript](#epa-testskript-epa_testps1)
   - [E-Rezept Testskript](#e-rezept-testskript-erezept_testps1)
+- [C# Konsolen-Anwendung](#c-konsolen-anwendung)
 - [Konfiguration](#konfiguration)
 - [Authentifizierung](#authentifizierung)
 - [Technische Details](#technische-details)
@@ -21,8 +26,15 @@ PowerShell-Skripte zum Testen der Verbindung zu Gematik Telematikinfrastruktur (
 
 ## Voraussetzungen
 
+### Für PowerShell-Skripte
 - **Windows PowerShell 5.1** oder **PowerShell 7+**
 - **.NET Framework 4.0+** oder **.NET 6.0+**
+
+### Für C# Konsolen-Anwendung
+- **.NET 8.0 SDK** oder höher
+- Plattformübergreifend (Windows, Linux, macOS)
+
+### Allgemein
 - Zugang zur Gematik Telematikinfrastruktur (TI)
 - Registrierte OIDC Client-ID bei einem sektoralen IDP
 
@@ -61,11 +73,20 @@ Invoke-WebRequest -Uri "https://dist.nuget.org/win-x86-commandline/latest/nuget.
 cd ..
 ```
 
-### 3. Konfiguration anpassen
+### 3. C# Anwendung kompilieren (optional)
 
-Öffnen Sie das gewünschte Skript und füllen Sie den Abschnitt **PFLICHT-KONFIGURATION** aus.
+```powershell
+cd src/GematikTI
+dotnet build
+```
 
-## Skripte
+### 4. Konfiguration anpassen
+
+**PowerShell:** Öffnen Sie das gewünschte Skript und füllen Sie den Abschnitt **PFLICHT-KONFIGURATION** aus.
+
+**C#:** Bearbeiten Sie die Datei `src/GematikTI/config.json`.
+
+## PowerShell-Skripte
 
 ### ePA Testskript (`epa_test.ps1`)
 
@@ -98,6 +119,86 @@ Prüft ob E-Rezepte für einen Versicherten vorliegen.
 **Verwendung:**
 ```powershell
 .\eRezept_test.ps1
+```
+
+## C# Konsolen-Anwendung
+
+Die C# Anwendung (`src/GematikTI/`) bietet die gleiche Funktionalität wie die PowerShell-Skripte in einer plattformübergreifenden .NET 8.0 Anwendung.
+
+### Kompilieren
+
+```powershell
+cd src/GematikTI
+dotnet build
+```
+
+### Verwendung
+
+```powershell
+# Hilfe anzeigen
+dotnet run -- --help
+
+# ePA testen
+dotnet run -- epa -c config.json
+
+# E-Rezept prüfen
+dotnet run -- erezept -c config.json
+
+# Mit eigener Konfigurationsdatei
+dotnet run -- epa -c /pfad/zu/meine-config.json
+```
+
+### Konfigurationsdatei (JSON)
+
+Die C# Anwendung verwendet eine JSON-Konfigurationsdatei:
+
+```json
+{
+  "Umgebung": "RU",
+  "EPA": {
+    "AktensystemBaseUrl": "https://epa.ibm-gesundheit.de"
+  },
+  "ERezept": {
+    "FdBaseUrl": "https://erp-ref.zentral.erp.splitdns.ti-dienste.de",
+    "IdpBaseUrl": "https://idp-ref.zentral.idp.splitdns.ti-dienste.de"
+  },
+  "Authentifizierung": {
+    "Methode": "GesundheitsID",
+    "OidcClientId": "IHRE_CLIENT_ID",
+    "OidcRedirectUri": "http://localhost:8080/callback",
+    "SektoralerIdpDiscoveryUrl": "https://idp.example.de/.well-known/openid-configuration"
+  },
+  "Versicherter": {
+    "KVNR": "X123456789"
+  },
+  "Optionen": {
+    "VerboseLogging": false,
+    "HttpTimeoutSeconds": 30
+  }
+}
+```
+
+### Projektstruktur C#
+
+```
+src/GematikTI/
+├── GematikTI.csproj           # Projektdatei
+├── Program.cs                 # Einstiegspunkt + CLI
+├── config.json                # Beispiel-Konfiguration
+├── Configuration/
+│   └── GematikConfig.cs       # Konfigurationsklassen
+├── Logging/
+│   └── Logger.cs              # Konsolenausgabe
+├── Crypto/
+│   ├── PkceChallenge.cs       # PKCE-Implementierung
+│   └── VauCrypto.cs           # Kyber768, ECDH, AES/GCM, HKDF
+├── Auth/
+│   └── OidcAuthService.cs     # OIDC-Authentifizierung
+├── Epa/
+│   ├── VauProtocolClient.cs   # VAU-Protokoll
+│   └── EpaClient.cs           # ePA-Client
+└── ERezept/
+    └── ERezeptClient.cs       # E-Rezept-Client
 ```
 
 ## Konfiguration
@@ -186,15 +287,26 @@ Client                                    VAU-Instanz
 
 ```
 eRezept/
-├── epa_test.ps1           # ePA 3.x Testskript
-├── eRezept_test.ps1       # E-Rezept Testskript
-├── README.md              # Diese Datei
-├── lib/                   # Externe Bibliotheken
-│   ├── nuget.exe
+├── epa_test.ps1               # ePA 3.x Testskript (PowerShell)
+├── eRezept_test.ps1           # E-Rezept Testskript (PowerShell)
+├── README.md                  # Diese Datei
+├── LICENSE                    # MIT Lizenz
+├── .gitignore                 # Git Ignore-Datei
+├── lib/                       # Externe Bibliotheken (PowerShell)
 │   ├── PeterO.Cbor.4.5.3/
 │   ├── PeterO.Numbers.1.8.2/
 │   └── BouncyCastle.Cryptography.2.4.0/
-└── .gitignore             # Git Ignore-Datei
+└── src/
+    └── GematikTI/             # C# Konsolen-Anwendung
+        ├── GematikTI.csproj
+        ├── Program.cs
+        ├── config.json
+        ├── Configuration/
+        ├── Logging/
+        ├── Crypto/
+        ├── Auth/
+        ├── Epa/
+        └── ERezept/
 ```
 
 ## Referenzen

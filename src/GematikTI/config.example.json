@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "description": "Konfiguration fuer Gematik TI Test-Client",
+  
+  "// HINWEIS": "Kopieren Sie diese Datei als config.epa.json oder config.erezept.json und passen Sie die Werte an",
+  
+  "Umgebung": "RU",
+  "// Umgebung": "RU = Referenzumgebung, TU = Testumgebung, PU = Produktivumgebung",
+  
+  "ePA": {
+    "AktensystemBaseUrl": "",
+    "// AktensystemBaseUrl": "z.B. https://epa.ibm-gesundheit.de oder https://epa.bitmarck.de"
+  },
+  
+  "eRezept": {
+    "FdBaseUrl": "",
+    "// FdBaseUrl_RU": "https://erp-ref.zentral.erp.splitdns.ti-dienste.de",
+    "// FdBaseUrl_TU": "https://erp-test.zentral.erp.splitdns.ti-dienste.de",
+    "// FdBaseUrl_PU": "https://erp.zentral.erp.splitdns.ti-dienste.de",
+    
+    "IdpBaseUrl": "",
+    "// IdpBaseUrl_RU": "https://idp-ref.zentral.idp.splitdns.ti-dienste.de",
+    "// IdpBaseUrl_TU": "https://idp-test.zentral.idp.splitdns.ti-dienste.de",
+    "// IdpBaseUrl_PU": "https://idp.zentral.idp.splitdns.ti-dienste.de"
+  },
+  
+  "Authentifizierung": {
+    "Methode": "GesundheitsID",
+    "// Methode": "GesundheitsID, eGK oder SMC-B",
+    
+    "OidcClientId": "",
+    "OidcRedirectUri": "http://localhost:8888/callback",
+    
+    "SektoralerIdpDiscoveryUrl": "",
+    "// SektoralerIdpDiscoveryUrl": "z.B. https://idp.tk.de/.well-known/openid-configuration",
+    
+    "KonnektorUrl": "",
+    "// KonnektorUrl": "Nur fuer eGK-Authentifizierung erforderlich",
+    
+    "EgkCardHandle": ""
+  },
+  
+  "Versicherter": {
+    "KVNR": "",
+    "// KVNR": "10-stellig: Buchstabe + 9 Ziffern, z.B. X123456789"
+  },
+  
+  "Optionen": {
+    "HttpTimeoutSeconds": 30,
+    "VerboseLogging": true,
+    "LocalRedirectPort": 8888,
+    "FhirVersion": "4.0.1",
+    "MaxRezepte": 50,
+    "RezeptStatus": ["ready", "in-progress"]
+  }
+}
